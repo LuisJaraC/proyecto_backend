@@ -1,19 +1,22 @@
 ## Proyecto drf
 
-Aplicación web con Django.
+Aplicación web y API REST para la gestión de tickets de soporte desarrollada con Django y Django REST Framework.
 
 ## Requisitos Previos
 
 * Python 3.10 o superior
 * `pip` (gestor de paquetes de Python)
+* PostgreSQL instalado y ejecutándose localmente
 
 ## Instalación y ejecución
-**1. Clonar repositorio**
-```bash
-git clone https://github.com/LuisJaraC/proyecto_backend.git
-cd proyecto_backend
 
-**2. Crear un entorno virtual** (dentro de la carpeta del proyecto)
+### 1. Clonar repositorio
+```bash
+git clone [https://github.com/LuisJaraC/proyecto_backend.git](https://github.com/LuisJaraC/proyecto_backend.git)
+cd proyecto_backend
+```
+
+### 2. Crear un entorno virtual (dentro de la carpeta del proyecto)
 
 En **Windows**:
 ```bash
@@ -25,7 +28,7 @@ En **Linux / macOS**:
 python3 -m venv venv
 ```
 
-**3. Activar el entorno virtual**
+### 3. Activar el entorno virtual
 
 En **Windows (CMD)**:
 ```bash
@@ -42,58 +45,51 @@ En **Linux / macOS**:
 source venv/bin/activate
 ```
 
-**4. Instalar las dependencias**
+### 4. Instalar las dependencias
 ```bash
 pip install -r requirements.txt
 ```
 
-**5. Ejecutar las migraciones**
-```bash
-python manage.py migrate
-```
+### 5. Configurar la base de datos (PostgreSQL)
 
-**6. Configurar la base de datos**
-En **Windows (o Pgadmin)**:
+En **Windows (o pgAdmin)**:
 ```bash
 psql -U postgres
 ```
-En **Linux o MacOS**:
+
+En **Linux / macOS**:
 ```bash
 sudo -u postgres psql
 ```
-**Una vez dentro, ejecuta los siguientes comandos para crear la base de datos y asignar permisos:**
-SQL
+Y configura tu base de datos asignando los permisos necesarios...
 
-CREATE DATABASE tickets_db;
-CREATE USER tickets_admin WITH PASSWORD 'admin_password123';
-ALTER ROLE tickets_admin SET client_encoding TO 'utf8';
-ALTER ROLE tickets_admin SET default_transaction_isolation TO 'read committed';
-ALTER ROLE tickets_admin SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE tickets_db TO tickets_admin;
-\c tickets_db
-GRANT ALL ON SCHEMA public TO tickets_admin;
-\q
+### 6. Configurar variables de entorno
+Crea un archivo llamado `.env` dentro de la carpeta raíz del proyecto (junto a `manage.py`) y asigna las variables de entorno.
 
-**7. Configurar variables de entorno**
-Crear un archivo .env con las variables dentro de la carpeta raiz del proyecto.
 
-**8. Ejecuta las migraciones y crea el superusuario**
+### 7. Ejecutar las migraciones y crear el superusuario
 ```bash
 python manage.py makemigrations tickets
 python manage.py migrate
 python manage.py createsuperuser
 ```
-**9. Levanta el servidor**
+
+### 8. Levantar el servidor
 ```bash
 python manage.py runserver
 ```
 
-
 Abre [http://127.0.0.1:8000](http://127.0.0.1:8000) en tu navegador.
 
-**ENDPOINTS DE LA API**
-*Panel de Administración: http://127.0.0.1:8000/admin/*
+## Rutas y Endpoints Disponibles
 
-*Tickets (CRUD): http://127.0.0.1:8000/api/tickets/*
+### Vistas Web y Autenticación
+* **Vista Pública de Bienvenida:** [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+* **Inicio de Sesión (Login):** [http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/)
+* **Vista Protegida por Función (FBV):** [http://127.0.0.1:8000/dashboard-por-funcion/](http://127.0.0.1:8000/dashboard-por-funcion/)
+* **Vista Protegida por Clase (CBV):** [http://127.0.0.1:8000/panel-por-clase/](http://127.0.0.1:8000/panel-por-clase/)
+* **Panel de Administración:** [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
 
-*Historial (CRUD): http://127.0.0.1:8000/api/historial/*
+### Endpoints de la API REST
+* **Tickets (CRUD):** [http://127.0.0.1:8000/api/tickets/](http://127.0.0.1:8000/api/tickets/)
+* **Historial (CRUD):** [http://127.0.0.1:8000/api/historial/](http://127.0.0.1:8000/api/historial/)

@@ -2,11 +2,49 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Bienvenida - Sistema de Tickets</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f8f9fa; }
+        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); max-width: 700px; }
+        .badge-public { background: #17a2b8; color: white; padding: 5px 10px; border-radius: 4px; font-size: 14px; }
+        .status { padding: 12px; margin: 15px 0; border-radius: 5px; }
+        .auth-yes { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .auth-no { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .nav a, .nav button { margin-right: 10px; padding: 8px 14px; text-decoration: none; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; display: inline-block; font-size: 14px; }
+        .nav form { display: inline; }
+        .btn-danger { background: #dc3545 !important; }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido a mi sitio web</h1>
-    <p>Este es el contenido de la página de inicio.</p>
+    <div class="card">
+        <span class="badge-public">VISTA PÚBLICA DE BIENVENIDA</span>
+        <h1>Sistema de Gestión de Tickets de Soporte</h1>
+        <p>Esta es la página de inicio de acceso público. Cualquier visitante puede visualizar esta pantalla sin necesidad de iniciar sesión.</p>
+
+        {% if user.is_authenticated %}
+            <div class="status auth-yes">
+                <strong>Estado de Sesión:</strong> Usuario Autenticado como <strong>{{ user.username }}</strong>
+            </div>
+        {% else %}
+            <div class="status auth-no">
+                <strong>Estado de Sesión:</strong> Usuario NO Autenticado (Visitante Anónimo)
+            </div>
+        {% endif %}
+
+        <h3>Menú de Navegación y Pruebas:</h3>
+        <div class="nav">
+            <a href="{% url 'protegida_por_funcion' %}">Ir a Vista Protegida (FBV)</a>
+            <a href="{% url 'protegida_por_clase' %}">Ir a Vista Protegida (CBV)</a>
+            <a href="/api/tickets/">Ir a API REST (/api/tickets/)</a>
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-danger">Cerrar Sesión (Logout)</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Iniciar Sesión (Login)</a>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
